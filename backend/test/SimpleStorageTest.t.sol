@@ -9,5 +9,4 @@ contract SimpleStorageTest is Test {
         DeploySimpleStorage newContract = new DeploySimpleStorage();
         
     }
-
 }
