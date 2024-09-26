@@ -9,8 +9,11 @@ contract SimpleStorageTest is Test {
     SimpleStorage public simpleStorage;
 
     function setUp() public {
+        // use the DeploySimpleStorage script to deploy the contract
+        DeploySimpleStorage deployScript = new DeploySimpleStorage();
+
         // Deploy the SimpleStorage contract before each test
-        simpleStorage = new SimpleStorage();
+        simpleStorage = deployScript.run();
     }
 
     function testStoreFavoriteNumber() public {
@@ -22,5 +25,19 @@ contract SimpleStorageTest is Test {
         // verify that the favorite number was stored correctly
         uint256 storedNumber = simpleStorage.viewFavoriteNumber();
         assertEq(storedNumber, expectNumber);
+    }
+
+    function testCreatePersion() public {
+        string memory expectName = "John";
+        uint256 expectFavoriteNumber = 16;
+
+        // call createPerson function
+        simpleStorage.createPerson(expectName, expectFavoriteNumber);
+
+        // verify
+        (string memory storedName, uint256 storedNumber) = simpleStorage
+            .listOfPeople(0);
+        assertEq(storedName, expectName);
+        assertEq(storedNumber, expectFavoriteNumber);
     }
 }
